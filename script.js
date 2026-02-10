@@ -55,58 +55,60 @@
   const headerAvatar = document.querySelector('.site-header__avatar');
 
   if (header && heroSection && heroImage && headerAvatar) {
-    const getCenter = (el) => {
+    const getPos = (el) => {
       const rect = el.getBoundingClientRect();
       return {
-        x: rect.left + rect.width / 2 + window.scrollX,
-        y: rect.top + rect.height / 2 + window.scrollY,
+        x: rect.left + window.scrollX,
+        y: rect.top + window.scrollY,
         w: rect.width
       };
     };
 
-    let start = getCenter(heroImage);
-    const scrollEnd = heroSection.offsetHeight + 400;
+    let startPos = getPos(heroImage);
+    const scrollEnd = heroSection.offsetHeight + 200;
+
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let damping = 0.15;
 
     let lastScroll = -1;
-    const updateAvatar = () => {
+    const animate = () => {
       const scroll = window.scrollY;
-      if (scroll !== lastScroll) {
-        lastScroll = scroll;
-        const progress = Math.min(Math.max(scroll / scrollEnd, 0), 1);
+      targetProgress = Math.min(Math.max(scroll / scrollEnd, 0), 1);
 
-        if (progress > 0) {
-          const target = getCenter(headerAvatar);
-          const targetVisualY = target.y - scroll;
-          const startAbsY = start.y;
+      // Interpolate progress
+      currentProgress += (targetProgress - currentProgress) * damping;
 
-          const tx = target.x - start.x;
-          const ty = targetVisualY - startAbsY + scroll;
-          const scale = 32 / start.w;
+      if (currentProgress > 0.001) {
+        const targetRect = headerAvatar.getBoundingClientRect();
 
-          // Use a more granular easing function for better response
-          const eased = 1 - Math.pow(1 - progress, 2.5);
+        // Calculate deltas from original document position to current viewport target
+        const tx = targetRect.left - (startPos.x - window.scrollX);
+        const ty = targetRect.top - (startPos.y - window.scrollY);
+        const scale = 32 / startPos.w;
 
-          // Apply transforms using translate3d for hardware acceleration
-          heroImage.style.transform = `translate3d(${tx * eased}px, ${ty * eased}px, 0) scale(${1 + (scale - 1) * eased})`;
+        const eased = 1 - Math.pow(1 - currentProgress, 2.5);
 
-          if (progress > 0.9) {
-            header.classList.add('site-header--scrolled');
-          } else {
-            header.classList.remove('site-header--scrolled');
-          }
+        heroImage.style.transform = `translate3d(${tx * eased}px, ${ty * eased}px, 0) scale(${1 + (scale - 1) * eased})`;
+
+        if (currentProgress > 0.9) {
+          header.classList.add('site-header--scrolled');
         } else {
-          heroImage.style.transform = 'none';
           header.classList.remove('site-header--scrolled');
         }
+      } else if (currentProgress <= 0.001 && targetProgress === 0) {
+        heroImage.style.transform = 'none';
+        header.classList.remove('site-header--scrolled');
+        currentProgress = 0;
       }
-      requestAnimationFrame(updateAvatar);
+
+      requestAnimationFrame(animate);
     };
 
-    // Start the granular update loop
-    requestAnimationFrame(updateAvatar);
+    requestAnimationFrame(animate);
 
     window.addEventListener('resize', () => {
-      start = getCenter(heroImage);
+      startPos = getPos(heroImage);
     });
   }
 
