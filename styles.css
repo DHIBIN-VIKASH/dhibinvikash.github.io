@@ -58,6 +58,15 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+/* Lock body scroll when mobile nav is open */
+body.nav-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    touch-action: none;
 }
 
 body {
@@ -311,8 +320,7 @@ a {
     filter: grayscale(20%);
     border: 4px solid var(--surface);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
-    /* Maintain absolute priority over the navbar */
+    z-index: 10;
     position: relative;
     transform-origin: center center;
     will-change: transform;
@@ -408,7 +416,7 @@ a {
 /* --- Academic Snapshot --- */
 .snapshot-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
     gap: var(--space-12);
     margin-top: var(--space-12);
 }
@@ -605,19 +613,33 @@ a {
     }
 
     .hero__actions {
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    .hero__cta {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
     }
 
     .nav-toggle {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
     }
 
     .site-nav {
         position: fixed;
         top: 0;
+        left: 0;
         right: 0;
         width: 100%;
         height: 100vh;
+        height: 100dvh;
         background: var(--background);
         display: flex;
         flex-direction: column;
@@ -626,12 +648,32 @@ a {
         gap: var(--space-8);
         z-index: 1500;
         transform: translateX(100%);
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        border-left: 1px solid var(--border);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            visibility 0s 0.4s;
+        visibility: hidden;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
     }
 
     .site-nav.is-open {
         transform: translateX(0);
+        visibility: visible;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            visibility 0s 0s;
+    }
+
+    .site-nav__link {
+        font-size: var(--text-lg);
+        padding: var(--space-3) var(--space-8);
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+
+    .theme-toggle {
+        min-width: 44px;
+        min-height: 44px;
+        font-size: 1.5rem;
     }
 
     .section {
@@ -642,5 +684,44 @@ a {
     .pub-entry__detail span {
         display: block;
         margin-bottom: var(--space-1);
+        min-width: unset;
+    }
+
+    .project-entry,
+    .pub-entry {
+        padding: var(--space-6);
+    }
+
+    .snapshot-card {
+        padding: var(--space-6);
+    }
+
+    .pub-button {
+        min-height: 44px;
+        padding: var(--space-3) var(--space-6);
+    }
+
+    .contact-link {
+        min-height: 44px;
+        padding: var(--space-3) var(--space-6);
+    }
+
+    .site-footer {
+        padding: var(--space-16) 0;
+    }
+
+    .hero__image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .hero__image-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+
+    h2::after {
+        margin-left: auto;
+        margin-right: auto;
     }
 }
