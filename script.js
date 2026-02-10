@@ -37,7 +37,6 @@
     navToggle.addEventListener('click', function () {
       const isOpen = siteNav.classList.toggle('is-open');
       navToggle.setAttribute('aria-expanded', String(isOpen));
-      navToggle.innerHTML = isOpen ? '&#10005;' : '&#9776;';
     });
 
     // Close nav on link click (mobile)
@@ -45,10 +44,25 @@
       link.addEventListener('click', function () {
         siteNav.classList.remove('is-open');
         navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.innerHTML = '&#9776;';
       });
     });
   }
+
+  // Header Scroll Animation (Avatar Transition)
+  const header = document.querySelector('.site-header');
+  const heroSection = document.getElementById('hero');
+
+  if (header && heroSection) {
+    window.addEventListener('scroll', () => {
+      const heroBottom = heroSection.offsetTop + heroSection.offsetHeight - 80;
+      if (window.scrollY > heroBottom) {
+        header.classList.add('site-header--scrolled');
+      } else {
+        header.classList.remove('site-header--scrolled');
+      }
+    });
+  }
+
   // --- Advanced Animations (Apple-style) ---
   const revealElements = document.querySelectorAll('.section, .hero, .snapshot-card, .pub-entry');
 

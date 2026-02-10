@@ -151,11 +151,93 @@ a {
     align-items: center;
 }
 
+.site-header__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.site-header__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(0.5) translateX(-20px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--border);
+}
+
+.site-header--scrolled .site-header__avatar {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+}
+
 .site-header__name {
     font-family: 'Crimson Text', serif;
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     font-weight: 700;
     letter-spacing: 0.02em;
+    transition: transform 0.3s ease;
+}
+
+.site-header--scrolled .site-header__name {
+    transform: translateX(0);
+}
+
+/* --- Nav Toggle --- */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    z-index: 2000;
+    padding: 10px;
+}
+
+.nav-toggle__icon {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-toggle__icon::before,
+.nav-toggle__icon::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.nav-toggle__icon::before {
+    top: -6px;
+}
+
+.nav-toggle__icon::after {
+    bottom: -6px;
+}
+
+/* Open state for animated icon */
+[aria-expanded="true"] .nav-toggle__icon {
+    background: transparent;
+}
+
+[aria-expanded="true"] .nav-toggle__icon::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+[aria-expanded="true"] .nav-toggle__icon::after {
+    transform: rotate(-45deg);
+    bottom: 0;
 }
 
 .site-nav {
@@ -460,9 +542,30 @@ a {
         justify-content: center;
     }
 
+    .nav-toggle {
+        display: block;
+    }
+
     .site-nav {
-        display: none;
-        /* Consider a simple mobile menu if needed */
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--background);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--space-8);
+        z-index: 1500;
+        transform: translateX(100%);
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        border-left: 1px solid var(--border);
+    }
+
+    .site-nav.is-open {
+        transform: translateX(0);
     }
 
     .section {

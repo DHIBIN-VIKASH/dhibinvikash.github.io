@@ -30,11 +30,15 @@
 <body>
 
     <!-- ==================== HEADER ==================== -->
-    <header class="site-header" role="banner">
+    <header class="site-header site-header--scrolled" role="banner">
         <div class="site-header__inner">
-            <a href="index.html" class="site-header__name" id="site-logo-research">Dhibin Vikash K P</a>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation"
-                aria-expanded="false">&#9776;</button>
+            <div class="site-header__brand">
+                <img src="public/profile.jpg" alt="" class="site-header__avatar">
+                <a href="index.html" class="site-header__name" id="site-logo-research">Dhibin Vikash K P</a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="nav-toggle__icon"></span>
+            </button>
             <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
                 <a href="index.html" class="site-nav__link" id="nav-home-research">Home</a>
                 <a href="research.html" class="site-nav__link site-nav__link--active"
