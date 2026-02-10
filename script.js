@@ -161,7 +161,7 @@
   // ============================================================
   // Advanced Animations (Apple-style reveal)
   // ============================================================
-  const revealElements = document.querySelectorAll('.section, .snapshot-card, .pub-entry, .project-entry');
+  const revealElements = document.querySelectorAll('.section, .snapshot-card, .pub-entry, .project-entry, .agent-card');
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -178,10 +178,10 @@
   revealElements.forEach((el, index) => {
     el.classList.add('reveal');
     // Stagger list items if needed
-    if (el.classList.contains('snapshot-card') || el.classList.contains('pub-entry') || el.classList.contains('project-entry')) {
+    if (el.classList.contains('snapshot-card') || el.classList.contains('pub-entry') || el.classList.contains('project-entry') || el.classList.contains('agent-card')) {
       const parent = el.parentElement;
       const items = Array.from(parent.children).filter(child =>
-        child.classList.contains('snapshot-card') || child.classList.contains('pub-entry') || child.classList.contains('project-entry')
+        child.classList.contains('snapshot-card') || child.classList.contains('pub-entry') || child.classList.contains('project-entry') || child.classList.contains('agent-card')
       );
       const staggerIndex = items.indexOf(el);
       el.style.setProperty('--stagger-index', staggerIndex);

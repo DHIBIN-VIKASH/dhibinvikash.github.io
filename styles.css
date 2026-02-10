@@ -596,6 +596,65 @@ a {
     color: var(--text-tertiary);
 }
 
+/* --- SMR Agents Showcase --- */
+.agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+}
+
+.agent-card {
+    background: var(--surface);
+    padding: var(--space-8);
+    border: 1px solid var(--border);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.agent-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    background: var(--surface-alt);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.agent-card__icon {
+    color: var(--accent);
+    margin-bottom: var(--space-4);
+}
+
+.agent-card__title {
+    font-family: 'Crimson Text', serif;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+}
+
+.agent-card__description {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+    flex-grow: 1;
+}
+
+.agent-card__link {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: auto;
+}
+
+.agent-card__link:hover {
+    color: var(--text-primary);
+}
+
 /* --- Animations --- */
 .reveal {
     opacity: 0;
@@ -606,6 +665,10 @@ a {
 .reveal--visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.stagger-item.reveal--visible {
+    transition-delay: calc(var(--stagger-index) * 0.1s);
 }
 
 /* --- Mobile / Responsiveness --- */
