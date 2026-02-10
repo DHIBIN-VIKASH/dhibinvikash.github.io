@@ -48,20 +48,54 @@
     });
   }
 
-  // Header Scroll Animation (Avatar Transition)
+  // Header Scroll Animation (Improved Smooth Avatar Transition)
   const header = document.querySelector('.site-header');
   const heroSection = document.getElementById('hero');
+  const heroImage = document.querySelector('.hero__image');
+  const headerAvatar = document.querySelector('.site-header__avatar');
 
-  if (header && heroSection) {
+  if (header && heroSection && heroImage && headerAvatar) {
+    let initialHeroRect = null;
+    const scrollEnd = heroSection.offsetHeight - 60; // Dock just before hero ends
+
     window.addEventListener('scroll', () => {
-      const heroBottom = heroSection.offsetTop + heroSection.offsetHeight - 80;
-      if (window.scrollY > heroBottom) {
-        header.classList.add('site-header--scrolled');
+      if (!initialHeroRect) {
+        initialHeroRect = heroImage.getBoundingClientRect();
+      }
+
+      const scroll = window.scrollY;
+      const progress = Math.min(Math.max(scroll / scrollEnd, 0), 1);
+
+      if (progress > 0) {
+        const targetRect = headerAvatar.getBoundingClientRect();
+
+        // Calculate deltas with scroll compensation
+        const diffX = targetRect.left + (targetRect.width / 2) - (initialHeroRect.left + (initialHeroRect.width / 2));
+        const diffY = (targetRect.top + (targetRect.height / 2)) - (initialHeroRect.top + (initialHeroRect.height / 2)) + scroll;
+        const scale = targetRect.width / initialHeroRect.width;
+
+        // Ease out for smoother motion
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+        heroImage.style.transform = `translate3d(${diffX * easedProgress}px, ${diffY * easedProgress}px, 0) scale(${1 + (scale - 1) * easedProgress})`;
+
+        if (progress > 0.9) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          header.classList.remove('site-header--scrolled');
+        }
       } else {
+        heroImage.style.transform = 'none';
         header.classList.remove('site-header--scrolled');
       }
     });
   }
+
+  // Handle resize to recalibrate
+  window.addEventListener('resize', () => {
+    // Logic for recalibration if needed
+  });
+
 
   // --- Advanced Animations (Apple-style) ---
   const revealElements = document.querySelectorAll('.section, .hero, .snapshot-card, .pub-entry');

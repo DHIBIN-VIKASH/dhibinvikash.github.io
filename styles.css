@@ -163,15 +163,18 @@ a {
     border-radius: 50%;
     object-fit: cover;
     opacity: 0;
-    transform: scale(0.5) translateX(-20px);
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Hidden initially, JS will reveal when docked */
     border: 1px solid var(--border);
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .site-header--scrolled .site-header__avatar {
     opacity: 1;
-    transform: scale(1) translateX(0);
+    visibility: visible;
 }
+
+
 
 .site-header__name {
     font-family: 'Crimson Text', serif;
@@ -284,6 +287,8 @@ a {
 
 .hero__image-wrapper {
     flex-shrink: 0;
+    width: 160px;
+    height: 160px;
 }
 
 .hero__image {
@@ -294,6 +299,19 @@ a {
     filter: grayscale(20%);
     border: 4px solid var(--surface);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    z-index: 1100;
+    /* Higher than header (1000) */
+    position: relative;
+    transform-origin: center center;
+    transition: filter 0.3s ease, border-color 0.3s ease;
+}
+
+.hero__image--docked {
+    position: fixed;
+    pointer-events: none;
+    border-width: 1px;
+    box-shadow: none;
+    filter: none;
 }
 
 .hero__name {
