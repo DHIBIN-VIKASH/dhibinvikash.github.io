@@ -659,6 +659,11 @@ ul {
     color: var(--accent);
 }
 
+.site-footer .section__label {
+    text-align: center;
+    margin-bottom: var(--space-6);
+}
+
 .footer-note {
     margin-top: var(--space-8);
     font-size: var(--text-xs);
