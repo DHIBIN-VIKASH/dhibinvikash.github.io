@@ -134,7 +134,8 @@ a {
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
+    /* Lower than hero image (1100) */
     border-bottom: 1px solid var(--border);
 }
 
