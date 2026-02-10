@@ -172,8 +172,19 @@ ul {
 
 /* --- Header / Nav --- */
 .site-header {
-    padding: var(--space-6) 0;
+    padding: var(--space-4) 0;
     border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(13, 13, 13, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="light"] .site-header {
+    background-color: rgba(250, 248, 245, 0.8);
 }
 
 .site-header__inner {
@@ -816,6 +827,26 @@ ul {
     }
 }
 
+/* --- Animations (Apple-style) --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stagger-item {
+    transition-delay: calc(var(--stagger-index, 0) * 100ms);
+}
+
+/* Add custom stagger indices to elements via JS */
+
 /* --- Print --- */
 @media print {
     body {
@@ -825,8 +856,11 @@ ul {
 
     .site-header,
     .theme-toggle,
-    .nav-toggle {
+    .nav-toggle,
+    .reveal {
         display: none;
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     .section {

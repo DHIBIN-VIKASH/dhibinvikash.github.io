@@ -49,6 +49,36 @@
       });
     });
   }
+  // --- Advanced Animations (Apple-style) ---
+  const revealElements = document.querySelectorAll('.section, .hero, .snapshot-card, .pub-entry');
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal--visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  revealElements.forEach((el, index) => {
+    el.classList.add('reveal');
+    // Stagger list items if needed
+    if (el.classList.contains('snapshot-card') || el.classList.contains('pub-entry')) {
+      const parent = el.parentElement;
+      const items = Array.from(parent.children).filter(child =>
+        child.classList.contains('snapshot-card') || child.classList.contains('pub-entry')
+      );
+      const staggerIndex = items.indexOf(el);
+      el.style.setProperty('--stagger-index', staggerIndex);
+      el.classList.add('stagger-item');
+    }
+    revealObserver.observe(el);
+  });
+
   // Initialize Lucide icons
   if (window.lucide) {
     window.lucide.createIcons();
