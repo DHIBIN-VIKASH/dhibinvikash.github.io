@@ -48,68 +48,48 @@
     });
   }
 
-  // Header Scroll Animation (High-Granularity Smooth Transition)
+  // --- High-End Header Scroll Transitions ---
   const header = document.querySelector('.site-header');
-  const heroSection = document.getElementById('hero');
   const heroImage = document.querySelector('.hero__image');
-  const headerAvatar = document.querySelector('.site-header__avatar');
+  const heroSection = document.getElementById('hero');
 
-  if (header && heroSection && heroImage && headerAvatar) {
-    const getPos = (el) => {
-      const rect = el.getBoundingClientRect();
-      return {
-        x: rect.left + window.scrollX,
-        y: rect.top + window.scrollY,
-        w: rect.width
-      };
-    };
-
-    let startPos = getPos(heroImage);
-    const scrollEnd = heroSection.offsetHeight + 200;
-
-    let targetProgress = 0;
-    let currentProgress = 0;
-    let damping = 0.15;
-
-    let lastScroll = -1;
-    const animate = () => {
+  if (header) {
+    const handleScroll = () => {
       const scroll = window.scrollY;
-      targetProgress = Math.min(Math.max(scroll / scrollEnd, 0), 1);
 
-      // Interpolate progress
-      currentProgress += (targetProgress - currentProgress) * damping;
-
-      if (currentProgress > 0.001) {
-        const targetRect = headerAvatar.getBoundingClientRect();
-
-        // Calculate deltas from original document position to current viewport target
-        const tx = targetRect.left - (startPos.x - window.scrollX);
-        const ty = targetRect.top - (startPos.y - window.scrollY);
-        const scale = 32 / startPos.w;
-
-        const eased = 1 - Math.pow(1 - currentProgress, 2.5);
-
-        heroImage.style.transform = `translate3d(${tx * eased}px, ${ty * eased}px, 0) scale(${1 + (scale - 1) * eased})`;
-
-        if (currentProgress > 0.9) {
+      // If we are on the homepage (has hero section)
+      if (heroSection) {
+        const threshold = 80;
+        if (scroll > threshold) {
           header.classList.add('site-header--scrolled');
         } else {
           header.classList.remove('site-header--scrolled');
         }
-      } else if (currentProgress <= 0.001 && targetProgress === 0) {
-        heroImage.style.transform = 'none';
-        header.classList.remove('site-header--scrolled');
-        currentProgress = 0;
-      }
 
-      requestAnimationFrame(animate);
+        // Suble Hero Image Parallax/Fade
+        if (heroImage) {
+          const heroHeight = heroSection.offsetHeight;
+          if (scroll < heroHeight + 100) {
+            const progress = Math.min(scroll / heroHeight, 1);
+            heroImage.style.transform = `translateY(${scroll * 0.15}px)`;
+            heroImage.style.opacity = Math.max(1 - progress * 1.5, 0);
+          }
+        }
+      } else {
+        // Sub-pages: Always show scrolled state background for readability
+        // unless they are at the very top and want a transparent start
+        if (scroll > 20) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          // You can choose to keep it scrolled or remove it.
+          // For Research page, let's allow it to be transparent at top too for that high-end "airy" feel
+          header.classList.remove('site-header--scrolled');
+        }
+      }
     };
 
-    requestAnimationFrame(animate);
-
-    window.addEventListener('resize', () => {
-      startPos = getPos(heroImage);
-    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
   }
 
   // --- Advanced Animations (Apple-style) ---

@@ -128,18 +128,28 @@ a {
 
 /* --- Header / Nav --- */
 .site-header {
-    padding: var(--space-4) 0;
-    background-color: rgba(13, 13, 13, 0.8);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: var(--space-6) 0;
+    background-color: transparent;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid transparent;
+    transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-[data-theme="light"] .site-header {
-    background-color: rgba(250, 248, 245, 0.8);
+.site-header--scrolled {
+    padding: var(--space-3) 0;
+    background-color: rgba(13, 13, 13, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-color: var(--border);
+}
+
+[data-theme="light"] .site-header--scrolled {
+    background-color: rgba(250, 248, 245, 0.75);
 }
 
 .site-header__inner {
@@ -163,15 +173,17 @@ a {
     border-radius: 50%;
     object-fit: cover;
     opacity: 0;
-    /* Hidden initially, JS will reveal when docked */
+    transform: scale(0.8);
     border: 1px solid var(--border);
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
 }
 
 .site-header--scrolled .site-header__avatar {
     opacity: 1;
-    visibility: visible;
+    transform: scale(1);
+    pointer-events: auto;
 }
 
 
