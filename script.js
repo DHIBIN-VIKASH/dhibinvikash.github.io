@@ -55,31 +55,46 @@
   const headerAvatar = document.querySelector('.site-header__avatar');
 
   if (header && heroSection && heroImage && headerAvatar) {
-    let initialHeroRect = null;
-    const scrollEnd = heroSection.offsetHeight - 60; // Dock just before hero ends
+    // Get absolute center coordinates
+    const getCenter = (el) => {
+      const rect = el.getBoundingClientRect();
+      return {
+        x: rect.left + rect.width / 2 + window.scrollX,
+        y: rect.top + rect.height / 2 + window.scrollY,
+        w: rect.width
+      };
+    };
+
+    let start = getCenter(heroImage);
+    const scrollEnd = heroSection.offsetTop + heroSection.offsetHeight - 80;
 
     window.addEventListener('scroll', () => {
-      if (!initialHeroRect) {
-        initialHeroRect = heroImage.getBoundingClientRect();
-      }
-
       const scroll = window.scrollY;
       const progress = Math.min(Math.max(scroll / scrollEnd, 0), 1);
 
       if (progress > 0) {
-        const targetRect = headerAvatar.getBoundingClientRect();
+        const target = getCenter(headerAvatar);
 
-        // Calculate deltas with scroll compensation
-        const diffX = targetRect.left + (targetRect.width / 2) - (initialHeroRect.left + (initialHeroRect.width / 2));
-        const diffY = (targetRect.top + (targetRect.height / 2)) - (initialHeroRect.top + (initialHeroRect.height / 2)) + scroll;
-        const scale = targetRect.width / initialHeroRect.width;
+        // Calculate deltas relative to original document position
+        // We subtract current scroll because the element is moving with the page
+        const dx = target.x - start.x;
+        const dy = (target.y - scroll) - (start.y - scroll); // Viewport relative delta
 
-        // Ease out for smoother motion
-        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        // Corrected formula: we want VisualPos to be TargetVisualPos
+        // VisualPos = (StartAbsY - scroll) + TranslateY
+        // TranslateY = TargetVisualY - StartAbsY + scroll
+        const targetVisualY = target.y - scroll;
+        const startAbsY = start.y;
 
-        heroImage.style.transform = `translate3d(${diffX * easedProgress}px, ${diffY * easedProgress}px, 0) scale(${1 + (scale - 1) * easedProgress})`;
+        const tx = target.x - start.x;
+        const ty = targetVisualY - startAbsY + scroll;
+        const scale = 32 / start.w;
 
-        if (progress > 0.9) {
+        const eased = 1 - Math.pow(1 - progress, 3);
+
+        heroImage.style.transform = `translate3d(${tx * eased}px, ${ty * eased}px, 0) scale(${1 + (scale - 1) * eased})`;
+
+        if (progress > 0.95) {
           header.classList.add('site-header--scrolled');
         } else {
           header.classList.remove('site-header--scrolled');
@@ -89,16 +104,12 @@
         header.classList.remove('site-header--scrolled');
       }
     });
+
+    window.addEventListener('resize', () => { start = getCenter(heroImage); });
   }
 
-  // Handle resize to recalibrate
-  window.addEventListener('resize', () => {
-    // Logic for recalibration if needed
-  });
-
-
   // --- Advanced Animations (Apple-style) ---
-  const revealElements = document.querySelectorAll('.section, .hero, .snapshot-card, .pub-entry');
+  const revealElements = document.querySelectorAll('.section, .hero, .snapshot-card, .pub-entry, .project-entry');
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -115,10 +126,10 @@
   revealElements.forEach((el, index) => {
     el.classList.add('reveal');
     // Stagger list items if needed
-    if (el.classList.contains('snapshot-card') || el.classList.contains('pub-entry')) {
+    if (el.classList.contains('snapshot-card') || el.classList.contains('pub-entry') || el.classList.contains('project-entry')) {
       const parent = el.parentElement;
       const items = Array.from(parent.children).filter(child =>
-        child.classList.contains('snapshot-card') || child.classList.contains('pub-entry')
+        child.classList.contains('snapshot-card') || child.classList.contains('pub-entry') || child.classList.contains('project-entry')
       );
       const staggerIndex = items.indexOf(el);
       el.style.setProperty('--stagger-index', staggerIndex);
