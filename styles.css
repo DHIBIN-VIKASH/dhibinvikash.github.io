@@ -713,6 +713,9 @@ a {
     .hero__image {
         width: 120px;
         height: 120px;
+        z-index: auto;
+        position: static;
+        will-change: auto;
     }
 
     .hero__image-wrapper {
