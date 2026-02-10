@@ -111,7 +111,7 @@
   }
 
   // --- Advanced Animations (Apple-style) ---
-  const revealElements = document.querySelectorAll('.section, .hero, .snapshot-card, .pub-entry, .project-entry');
+  const revealElements = document.querySelectorAll('.section, .snapshot-card, .pub-entry, .project-entry');
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
