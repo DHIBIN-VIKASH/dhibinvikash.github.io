@@ -124,7 +124,7 @@
 
       // If we are on the homepage (has hero section)
       if (heroSection) {
-        const threshold = 80;
+        const threshold = 20;
         if (scroll > threshold) {
           header.classList.add('site-header--scrolled');
         } else {
