@@ -48,14 +48,13 @@
     });
   }
 
-  // Header Scroll Animation (Improved Smooth Avatar Transition)
+  // Header Scroll Animation (High-Granularity Smooth Transition)
   const header = document.querySelector('.site-header');
   const heroSection = document.getElementById('hero');
   const heroImage = document.querySelector('.hero__image');
   const headerAvatar = document.querySelector('.site-header__avatar');
 
   if (header && heroSection && heroImage && headerAvatar) {
-    // Get absolute center coordinates
     const getCenter = (el) => {
       const rect = el.getBoundingClientRect();
       return {
@@ -66,46 +65,49 @@
     };
 
     let start = getCenter(heroImage);
-    const scrollEnd = heroSection.offsetTop + heroSection.offsetHeight - 80;
+    const scrollEnd = heroSection.offsetHeight + 400;
 
-    window.addEventListener('scroll', () => {
+    let lastScroll = -1;
+    const updateAvatar = () => {
       const scroll = window.scrollY;
-      const progress = Math.min(Math.max(scroll / scrollEnd, 0), 1);
+      if (scroll !== lastScroll) {
+        lastScroll = scroll;
+        const progress = Math.min(Math.max(scroll / scrollEnd, 0), 1);
 
-      if (progress > 0) {
-        const target = getCenter(headerAvatar);
+        if (progress > 0) {
+          const target = getCenter(headerAvatar);
+          const targetVisualY = target.y - scroll;
+          const startAbsY = start.y;
 
-        // Calculate deltas relative to original document position
-        // We subtract current scroll because the element is moving with the page
-        const dx = target.x - start.x;
-        const dy = (target.y - scroll) - (start.y - scroll); // Viewport relative delta
+          const tx = target.x - start.x;
+          const ty = targetVisualY - startAbsY + scroll;
+          const scale = 32 / start.w;
 
-        // Corrected formula: we want VisualPos to be TargetVisualPos
-        // VisualPos = (StartAbsY - scroll) + TranslateY
-        // TranslateY = TargetVisualY - StartAbsY + scroll
-        const targetVisualY = target.y - scroll;
-        const startAbsY = start.y;
+          // Use a more granular easing function for better response
+          const eased = 1 - Math.pow(1 - progress, 2.5);
 
-        const tx = target.x - start.x;
-        const ty = targetVisualY - startAbsY + scroll;
-        const scale = 32 / start.w;
+          // Apply transforms using translate3d for hardware acceleration
+          heroImage.style.transform = `translate3d(${tx * eased}px, ${ty * eased}px, 0) scale(${1 + (scale - 1) * eased})`;
 
-        const eased = 1 - Math.pow(1 - progress, 3);
-
-        heroImage.style.transform = `translate3d(${tx * eased}px, ${ty * eased}px, 0) scale(${1 + (scale - 1) * eased})`;
-
-        if (progress > 0.95) {
-          header.classList.add('site-header--scrolled');
+          if (progress > 0.9) {
+            header.classList.add('site-header--scrolled');
+          } else {
+            header.classList.remove('site-header--scrolled');
+          }
         } else {
+          heroImage.style.transform = 'none';
           header.classList.remove('site-header--scrolled');
         }
-      } else {
-        heroImage.style.transform = 'none';
-        header.classList.remove('site-header--scrolled');
       }
-    });
+      requestAnimationFrame(updateAvatar);
+    };
 
-    window.addEventListener('resize', () => { start = getCenter(heroImage); });
+    // Start the granular update loop
+    requestAnimationFrame(updateAvatar);
+
+    window.addEventListener('resize', () => {
+      start = getCenter(heroImage);
+    });
   }
 
   // --- Advanced Animations (Apple-style) ---
