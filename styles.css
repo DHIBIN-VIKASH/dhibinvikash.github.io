@@ -926,9 +926,27 @@ time {
     background: var(--accent-muted);
 }
 
+.footer-url {
+    text-align: center;
+    margin-top: var(--space-8);
+    margin-bottom: 0;
+}
+
+.footer-url a {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-tertiary);
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+}
+
+.footer-url a:hover {
+    color: var(--accent);
+}
+
 .footer-note {
     text-align: center;
-    margin-top: var(--space-12);
+    margin-top: var(--space-4);
     font-size: var(--text-xs);
     color: var(--text-tertiary);
 }
@@ -1045,7 +1063,7 @@ time {
     pointer-events: auto;
 }
 
-.back-to-top:hover {
+.back-to-top.is-visible:hover {
     background: var(--accent-dark);
     transform: translateY(-4px);
     box-shadow: 0 10px 28px rgba(37, 99, 235, 0.5);
@@ -1245,6 +1263,7 @@ time {
 
 /* --- Print Stylesheet --- */
 @media print {
+
     *,
     *::before,
     *::after {
