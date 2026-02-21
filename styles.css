@@ -66,7 +66,7 @@ body {
     overflow-x: hidden;
     background-color: var(--background);
     color: var(--text-primary);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -116,7 +116,7 @@ body.nav-open {
 h1,
 h2,
 h3 {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     line-height: 1.1;
     letter-spacing: -0.02em;
     font-weight: 600;
@@ -487,6 +487,25 @@ a {
     margin-bottom: var(--space-4);
 }
 
+/* Page header subtitle (research.html hero text) */
+.page-header__subtitle {
+    font-family: 'Crimson Text', serif;
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-top: var(--space-4);
+    line-height: 1.5;
+    max-width: 600px;
+}
+
+/* Publication entry metadata wrapper */
+.pub-entry__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
 /* --- Page Headers (for sub-pages) --- */
 .page-header {
     padding-top: var(--space-32) !important;
@@ -506,7 +525,7 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
     gap: var(--space-12);
-    margin-top: var(--space-12);
+    margin-top: var(--space-4);
 }
 
 .snapshot-card {
@@ -1067,13 +1086,9 @@ a {
         height: 120px;
     }
 
-    h2::after {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .page-header h2::after,
-    .section h2::after {
+    /* Center the h2 underline only for hero/page-header on mobile */
+    .hero h2::after,
+    .page-header h2::after {
         margin-left: auto;
         margin-right: auto;
     }
