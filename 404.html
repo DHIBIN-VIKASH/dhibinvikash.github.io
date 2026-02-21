@@ -90,10 +90,19 @@
         // Respect theme preference on 404 page too
         (function () {
             const saved = localStorage.getItem('dv-theme');
+            const html = document.documentElement;
+            const apply = (theme) => {
+                html.setAttribute('data-theme', theme);
+                const color = theme === 'dark' ? '#0d0d0d' : '#faf8f5';
+                document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
+                    m.setAttribute('content', color);
+                    m.removeAttribute('media');
+                });
+            };
             if (saved) {
-                document.documentElement.setAttribute('data-theme', saved);
+                apply(saved);
             } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-                document.documentElement.setAttribute('data-theme', 'light');
+                apply('light');
             }
         })();
     </script>

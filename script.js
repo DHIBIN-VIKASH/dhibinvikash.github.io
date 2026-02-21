@@ -180,6 +180,7 @@
     { sectionId: 'hero', navId: 'nav-home' },
     { sectionId: 'snapshot', navId: 'nav-home' },
     { sectionId: 'projects', navId: 'nav-projects' },
+    { sectionId: 'technical', navId: 'nav-projects' },
     { sectionId: 'smr-agents', navId: 'nav-agents' },
     { sectionId: 'about', navId: 'nav-about' },
     // Research sections
