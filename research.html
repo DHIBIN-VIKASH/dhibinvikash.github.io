@@ -114,8 +114,10 @@
     <header class="site-header" role="banner">
         <div class="site-header__inner">
             <div class="site-header__brand">
-                <img src="public/profile.jpg" alt="Dhibin Vikash K P" class="site-header__avatar" id="header-avatar"
-                    loading="eager">
+                <picture>
+                    <source srcset="public/profile.webp" type="image/webp">
+                    <img src="public/profile.jpg" alt="" class="site-header__avatar" id="header-avatar" loading="eager">
+                </picture>
                 <a href="index.html" class="site-header__name" id="site-logo">Dhibin Vikash K P</a>
             </div>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">

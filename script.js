@@ -117,6 +117,11 @@
   }
 
   // ============================================================
+  // Scroll Handlers Registry (single listener for all scroll logic)
+  // ============================================================
+  var scrollHandlers = [];
+
+  // ============================================================
   // High-End Header Scroll Transitions
   // ============================================================
   const header = document.querySelector('.site-header');
@@ -163,16 +168,7 @@
       }
     };
 
-    var scrollTicking = false;
-    window.addEventListener('scroll', function () {
-      if (!scrollTicking) {
-        requestAnimationFrame(function () {
-          handleScroll();
-          scrollTicking = false;
-        });
-        scrollTicking = true;
-      }
-    }, { passive: true });
+    scrollHandlers.push(handleScroll);
     handleScroll();
   }
 
@@ -239,7 +235,7 @@
       }
     };
 
-    window.addEventListener('scroll', updateSpy, { passive: true });
+    scrollHandlers.push(updateSpy);
     updateSpy(); // set correct state immediately on load
   }
 
@@ -285,17 +281,35 @@
   // ============================================================
   const backToTop = document.getElementById('back-to-top');
   if (backToTop) {
-    window.addEventListener('scroll', function () {
+    scrollHandlers.push(function () {
       if (window.scrollY > 400) {
         backToTop.classList.add('is-visible');
       } else {
         backToTop.classList.remove('is-visible');
       }
-    }, { passive: true });
+    });
 
     backToTop.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+  }
+
+  // ============================================================
+  // Unified Scroll Listener (single rAF for all scroll handlers)
+  // ============================================================
+  if (scrollHandlers.length > 0) {
+    var scrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!scrollTicking) {
+        requestAnimationFrame(function () {
+          for (var i = 0; i < scrollHandlers.length; i++) {
+            scrollHandlers[i]();
+          }
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
   }
 
   // ============================================================

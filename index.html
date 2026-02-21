@@ -16,7 +16,7 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="google-site-verification" content="bwtS_X609Gw66Sfo-BKHAnJOD9sHicrOAgpSJAGvkGs" />
   <link rel="canonical" href="https://dhibin-vikash.github.io/">
-  <link rel="preload" as="image" href="public/profile.jpg">
+  <link rel="preload" as="image" href="public/profile.webp" type="image/webp">
   <link rel="preload" as="style" href="styles.css">
   <link rel="icon" href="public/favicon.png" type="image/png" sizes="512x512">
   <link rel="icon" href="public/favicon-32.png" type="image/png" sizes="32x32">
@@ -97,7 +97,10 @@
   <header class="site-header" role="banner">
     <div class="site-header__inner">
       <div class="site-header__brand">
-        <img src="public/profile.jpg" alt="Dhibin Vikash K P" class="site-header__avatar" id="header-avatar">
+        <picture>
+          <source srcset="public/profile.webp" type="image/webp">
+          <img src="public/profile.jpg" alt="" class="site-header__avatar" id="header-avatar">
+        </picture>
         <a href="index.html" class="site-header__name" id="site-logo">Dhibin Vikash K P</a>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -123,8 +126,11 @@
       <div class="site-container">
         <div class="hero__layout">
           <div class="hero__image-wrapper">
-            <img src="public/profile.jpg" alt="Dhibin Vikash K P — Physician-Scientist" class="hero__image" width="160"
-              height="160" loading="eager">
+            <picture>
+              <source srcset="public/profile.webp" type="image/webp">
+              <img src="public/profile.jpg" alt="Dhibin Vikash K P — Physician-Scientist" class="hero__image"
+                width="160" height="160" loading="eager">
+            </picture>
             <!-- NOTE: Any future images added below the fold should use loading="lazy" for performance -->
           </div>
           <div class="hero__content">
