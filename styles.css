@@ -12,6 +12,11 @@
     --surface: #ffffff;
     --surface-alt: #f1f5f9;
 
+    /* Light-mode glow tokens (used by hero mesh gradients) */
+    --glow-1: rgba(37, 99, 235, 0.08);
+    --glow-2: rgba(59, 130, 246, 0.06);
+    --glow-3: rgba(139, 92, 246, 0.06);
+
     /* Spacing - Increased for better rhythm */
     --space-1: 0.25rem;
     --space-2: 0.5rem;
