@@ -11,6 +11,12 @@
   function applyTheme(theme) {
     html.setAttribute('data-theme', theme);
     icon.textContent = theme === DARK ? '☀' : '☾';
+    // Sync browser theme-color meta to match current theme
+    var themeColor = theme === DARK ? '#0d0d0d' : '#faf8f5';
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
+      meta.setAttribute('content', themeColor);
+      meta.removeAttribute('media');
+    });
     try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) { /* noop */ }
   }
 
@@ -157,7 +163,16 @@
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    var scrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!scrollTicking) {
+        requestAnimationFrame(function () {
+          handleScroll();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
     handleScroll();
   }
 
@@ -165,11 +180,16 @@
   // Scroll-Spy — highlight active nav link as sections enter view
   // ============================================================
   const spyMap = [
+    // Home sections
     { sectionId: 'hero', navId: 'nav-home' },
     { sectionId: 'snapshot', navId: 'nav-home' },
     { sectionId: 'projects', navId: 'nav-projects' },
     { sectionId: 'smr-agents', navId: 'nav-agents' },
     { sectionId: 'about', navId: 'nav-about' },
+    // Research sections
+    { sectionId: 'publications', navId: 'nav-research' },
+    { sectionId: 'active-projects', navId: 'nav-research' },
+    // Contact is on all pages
     { sectionId: 'contact', navId: 'nav-contact' },
   ];
 
@@ -184,7 +204,20 @@
 
   if (spySections.length > 0) {
     const setActiveNav = (navId) => {
+      // Don't override the active state if we are actually ON that page 
+      // e.g. if we are on research.html, nav-research should stay active 
+      // unless we scroll to bottom (contact)
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
       allNavLinks.forEach(link => link.classList.remove('site-nav__link--active'));
+
+      // Special case: if on research page, nav-research is default active
+      if (currentPage === 'research.html' && (navId === 'nav-home' || !navId)) {
+        const researchNav = document.getElementById('nav-research');
+        if (researchNav) researchNav.classList.add('site-nav__link--active');
+        return;
+      }
+
       const active = document.getElementById(navId);
       if (active) active.classList.add('site-nav__link--active');
     };
@@ -193,13 +226,17 @@
       // Trigger point: 40% down the viewport
       const triggerY = window.innerHeight * 0.4;
       // Walk sections in order; last one whose top is above triggerY wins
-      let current = spySections[0];
+      let current = null;
+
       for (const section of spySections) {
         if (section.el.getBoundingClientRect().top <= triggerY) {
           current = section;
         }
       }
-      setActiveNav(current.navId);
+
+      if (current) {
+        setActiveNav(current.navId);
+      }
     };
 
     window.addEventListener('scroll', updateSpy, { passive: true });

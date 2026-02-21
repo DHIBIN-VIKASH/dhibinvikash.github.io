@@ -48,6 +48,12 @@
     --border: #262626;
     --surface: #171717;
     --surface-alt: #1e1e1e;
+
+    /* Experimental Palette Additions */
+    --glow-1: rgba(37, 99, 235, 0.15);
+    --glow-2: rgba(59, 130, 246, 0.1);
+    --glow-3: rgba(139, 92, 246, 0.1);
+    /* Subtle Purple accent for depth */
 }
 
 /* --- Base --- */
@@ -61,6 +67,32 @@ html {
     scroll-behavior: smooth;
     overflow-x: clip;
     color-scheme: dark light;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+/* Webkit scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+}
+
+/* Text selection */
+::selection {
+    background: var(--accent);
+    color: #fff;
 }
 
 body {
@@ -103,6 +135,16 @@ body.nav-open {
     outline-offset: 2px;
 }
 
+/* Modern keyboard focus indicator */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
 .site-container {
     width: 90%;
     max-width: var(--max-width);
@@ -137,10 +179,11 @@ h2::after {
     display: block;
     width: 60px;
     height: 3px;
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--accent), rgba(96, 165, 250, 0.4));
     margin-top: var(--space-2);
     margin-left: 0;
     margin-right: auto;
+    border-radius: 2px;
 }
 
 h3 {
@@ -342,6 +385,45 @@ a {
 /* --- Hero --- */
 .hero {
     padding: var(--space-32) 0 var(--space-24);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Atmospheric Mesh Gradients */
+.hero::before,
+.hero::after {
+    content: '';
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+    animation: drift 20s infinite alternate;
+}
+
+.hero::before {
+    top: -20%;
+    left: -10%;
+    background: radial-gradient(circle, var(--glow-1) 0%, transparent 70%);
+}
+
+.hero::after {
+    bottom: -20%;
+    right: -10%;
+    background: radial-gradient(circle, var(--glow-3) 0%, transparent 70%);
+    animation-delay: -10s;
+}
+
+@keyframes drift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(5%, 10%) scale(1.1);
+    }
 }
 
 .hero__layout {
@@ -375,6 +457,28 @@ a {
     z-index: 0;
 }
 
+/* Soft ambient glow behind profile photo */
+.hero__image-wrapper::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-muted) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+    animation: glow-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 @keyframes spin-ring {
     to {
         transform: rotate(360deg);
@@ -398,6 +502,10 @@ a {
 
 .hero__name {
     margin-bottom: var(--space-2);
+    background: linear-gradient(135deg, var(--text-primary) 60%, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero__title {
@@ -573,16 +681,19 @@ a {
     margin-top: var(--space-4);
 }
 
+
+
 .snapshot-card {
     background: var(--surface);
     padding: var(--space-8);
     border: 1px solid var(--border);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .snapshot-card:hover {
     border-color: var(--accent);
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 0 20px var(--accent-muted);
 }
 
 .snapshot-card__title {
@@ -651,16 +762,33 @@ a {
     padding: var(--space-5) var(--space-6);
     font-size: var(--text-sm);
     color: var(--text-secondary);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
         background 0.3s ease,
-        box-shadow 0.3s ease;
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
     line-height: 1.65;
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
 }
 
 .tech-item:hover {
-    transform: translateY(-4px);
+    transform: translateY(-8px) scale(1.02);
     background: var(--surface-alt);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 0 20px var(--accent-muted);
+    border-color: var(--accent);
+}
+
+.tech-item__icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: var(--accent);
+    margin-top: 2px;
+}
+
+.tech-item__content {
+    flex: 1;
 }
 
 .tech-item strong {
@@ -683,9 +811,16 @@ a {
 .project-entry,
 .pub-entry {
     background: var(--surface);
+    border: 1px solid var(--border);
     padding: var(--space-8);
-    border-left: 4px solid var(--border);
-    transition: all 0.3s ease;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pub-entry:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .project-entry:hover,
@@ -887,9 +1022,9 @@ a {
 }
 
 .about-interests__list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(max(280px, 100%), 1fr));
+    gap: var(--space-4);
 }
 
 .about-interests__item {
@@ -900,6 +1035,16 @@ a {
     border-left: 3px solid var(--accent);
     padding: var(--space-4) var(--space-6);
     line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.about-interests__icon {
+    width: 20px;
+    height: 20px;
+    color: var(--accent);
+    flex-shrink: 0;
 }
 
 /* Semantic time element — inherit parent text, no default UA styling */
@@ -967,6 +1112,8 @@ time {
 /* Contact icon / label micro-interactions */
 .contact-link i,
 .contact-link .rg-icon {
+    width: 18px;
+    height: 18px;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     flex-shrink: 0;
 }
@@ -997,21 +1144,35 @@ time {
     background: var(--surface);
     padding: var(--space-8);
     border: 1px solid var(--border);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
 }
 
 .agent-card:hover {
+    transform: translateY(-8px) scale(1.02);
     border-color: var(--accent);
-    transform: translateY(-5px);
-    background: var(--surface-alt);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), 0 0 20px var(--accent-muted);
 }
 
 .agent-card__icon {
     color: var(--accent);
     margin-bottom: var(--space-4);
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: var(--accent-muted);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.agent-card:hover .agent-card__icon {
+    background: var(--accent);
+    color: #fff;
+    transform: scale(1.1) rotate(5deg);
 }
 
 .agent-card__title {
@@ -1027,6 +1188,8 @@ time {
     margin-bottom: var(--space-6);
     flex-grow: 1;
 }
+
+
 
 .agent-card__link {
     font-size: var(--text-xs);
@@ -1078,8 +1241,8 @@ time {
 
 .back-to-top.is-visible:hover {
     background: var(--accent-dark);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.45), 0 0 15px var(--accent-muted);
 }
 
 .back-to-top svg {
@@ -1448,6 +1611,7 @@ time {
     .theme-toggle,
     .back-to-top,
     .hero__image-wrapper::before,
+    .hero__image-wrapper::after,
     .skip-nav,
     .page-transition {
         display: none !important;
