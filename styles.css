@@ -340,6 +340,32 @@ a {
     flex-shrink: 0;
     width: 160px;
     height: 160px;
+    position: relative;
+    will-change: transform, opacity;
+    transform-origin: center center;
+}
+
+/* Animated gradient ring around hero profile photo */
+.hero__image-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+            var(--accent),
+            rgba(59, 130, 246, 0.25) 30%,
+            transparent 48%,
+            transparent 52%,
+            rgba(59, 130, 246, 0.25) 70%,
+            var(--accent));
+    animation: spin-ring 9s linear infinite;
+    z-index: 0;
+}
+
+@keyframes spin-ring {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .hero__image {
@@ -352,8 +378,6 @@ a {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     z-index: 10;
     position: relative;
-    transform-origin: center center;
-    will-change: transform;
     transition: filter 0.3s ease, border-color 0.3s ease;
 }
 
@@ -523,6 +547,41 @@ a {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
+}
+
+/* --- Data Science Skills --- */
+.tech-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.tech-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: var(--space-5) var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+    line-height: 1.65;
+}
+
+.tech-item:hover {
+    transform: translateY(-4px);
+    background: var(--surface-alt);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.tech-item strong {
+    display: block;
+    color: var(--text-primary);
+    font-size: var(--text-base);
+    margin-bottom: var(--space-1);
+    font-weight: 600;
 }
 
 
@@ -713,6 +772,27 @@ a {
     color: var(--text-tertiary);
 }
 
+/* Contact icon / label micro-interactions */
+.contact-link i,
+.contact-link .rg-icon {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.contact-link:hover i,
+.contact-link:hover .rg-icon {
+    transform: scale(1.3) rotate(-8deg);
+}
+
+.contact-link__label {
+    display: inline-block;
+    transition: letter-spacing 0.25s ease;
+}
+
+.contact-link:hover .contact-link__label {
+    letter-spacing: 0.05em;
+}
+
 /* --- SMR Agents Showcase --- */
 .agent-grid {
     display: grid;
@@ -770,6 +850,54 @@ a {
 
 .agent-card__link:hover {
     color: var(--text-primary);
+}
+
+/* --- Back to Top Button --- */
+.back-to-top {
+    position: fixed;
+    bottom: var(--space-8);
+    right: var(--space-8);
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 998;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease,
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.back-to-top.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-top:hover {
+    background: var(--accent-dark);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.5);
+}
+
+.back-to-top svg {
+    width: 18px;
+    height: 18px;
+    stroke: white;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 /* --- Animations --- */

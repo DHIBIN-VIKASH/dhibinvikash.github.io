@@ -114,7 +114,8 @@
   // High-End Header Scroll Transitions
   // ============================================================
   const header = document.querySelector('.site-header');
-  const heroImage = document.querySelector('.hero__image');
+  // Target the wrapper so the spinning ring and image move/fade as one unit
+  const heroImageWrapper = document.querySelector('.hero__image-wrapper');
   const heroSection = document.getElementById('hero');
   const isMobile = () => window.innerWidth <= 768;
 
@@ -131,18 +132,18 @@
           header.classList.remove('site-header--scrolled');
         }
 
-        // Subtle Hero Image Parallax/Fade — disabled on mobile to prevent jank
-        if (heroImage && !isMobile()) {
+        // Parallax/Fade on the wrapper — ring + image travel together
+        if (heroImageWrapper && !isMobile()) {
           const heroHeight = heroSection.offsetHeight;
           if (scroll < heroHeight + 100) {
             const progress = Math.min(scroll / heroHeight, 1);
-            heroImage.style.transform = `translateY(${scroll * 0.15}px)`;
-            heroImage.style.opacity = Math.max(1 - progress * 1.5, 0);
+            heroImageWrapper.style.transform = `translateY(${scroll * 0.15}px)`;
+            heroImageWrapper.style.opacity = Math.max(1 - progress * 1.5, 0);
           }
-        } else if (heroImage && isMobile()) {
-          // Reset any inline styles that may have been set before resize
-          heroImage.style.transform = '';
-          heroImage.style.opacity = '';
+        } else if (heroImageWrapper && isMobile()) {
+          // Reset any inline styles set before resize
+          heroImageWrapper.style.transform = '';
+          heroImageWrapper.style.opacity = '';
         }
       } else {
         // Sub-pages
@@ -163,6 +164,7 @@
   // ============================================================
   const spyMap = [
     { sectionId: 'hero', navId: 'nav-home' },
+    { sectionId: 'snapshot', navId: 'nav-home' },
     { sectionId: 'projects', navId: 'nav-projects' },
     { sectionId: 'smr-agents', navId: 'nav-agents' },
     { sectionId: 'about', navId: 'nav-about' },
@@ -237,5 +239,23 @@
   // Initialize Lucide icons
   if (window.lucide) {
     window.lucide.createIcons();
+  }
+
+  // ============================================================
+  // Back to Top Button
+  // ============================================================
+  const backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 400) {
+        backToTop.classList.add('is-visible');
+      } else {
+        backToTop.classList.remove('is-visible');
+      }
+    }, { passive: true });
+
+    backToTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 })();
