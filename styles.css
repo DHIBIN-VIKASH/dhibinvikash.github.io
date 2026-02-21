@@ -1231,6 +1231,65 @@ time {
     }
 }
 
+/* --- Page Transition --- */
+.page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: var(--background);
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.page-transition.is-active {
+    animation: page-wipe-in 0.45s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    pointer-events: all;
+}
+
+@keyframes page-wipe-in {
+    0% {
+        transform: scaleX(0);
+        transform-origin: left center;
+    }
+
+    100% {
+        transform: scaleX(1);
+        transform-origin: left center;
+    }
+}
+
+/* Entrance animation on page load */
+.page-enter main {
+    animation: page-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.page-enter .site-header {
+    animation: page-header-fade 0.4s ease 0.1s both;
+}
+
+@keyframes page-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes page-header-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 /* --- Reduced Motion Accessibility --- */
 @media (prefers-reduced-motion: reduce) {
 
@@ -1259,6 +1318,15 @@ time {
     .pub-entry__status::after {
         animation: none;
     }
+
+    .page-transition {
+        display: none !important;
+    }
+
+    .page-enter main,
+    .page-enter .site-header {
+        animation: none !important;
+    }
 }
 
 /* --- Print Stylesheet --- */
@@ -1285,7 +1353,8 @@ time {
     .theme-toggle,
     .back-to-top,
     .hero__image-wrapper::before,
-    .skip-nav {
+    .skip-nav,
+    .page-transition {
         display: none !important;
     }
 

@@ -254,4 +254,72 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+
+  // ============================================================
+  // Page Transitions (subtle wipe + fade between pages)
+  // ============================================================
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Entrance animation
+  if (!prefersReducedMotion) {
+    document.body.classList.add('page-enter');
+    // Remove the class after animation completes so it doesn't interfere
+    setTimeout(function () {
+      document.body.classList.remove('page-enter');
+    }, 600);
+  }
+
+  // Intercept internal navigation links for smooth page transitions
+  const transition = document.getElementById('page-transition');
+  if (transition && !prefersReducedMotion) {
+    // Find all internal links that navigate between pages (not anchors)
+    const internalLinks = document.querySelectorAll(
+      'a[href="index.html"], a[href="research.html"], a[href="./index.html"], a[href="./research.html"]'
+    );
+
+    internalLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        const href = link.getAttribute('href');
+
+        // Skip if modifier key held (user wants new tab)
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+
+        // Skip links with hash on the same page
+        if (href.includes('#') && !href.startsWith('index.html') && !href.startsWith('research.html')) return;
+
+        e.preventDefault();
+
+        // Activate wipe overlay
+        transition.classList.add('is-active');
+
+        // Navigate after the wipe animation
+        setTimeout(function () {
+          window.location.href = href;
+        }, 420);
+      });
+    });
+
+    // Also handle nav links that point to index.html#section  
+    const crossPageAnchors = document.querySelectorAll(
+      'a[href^="index.html#"], a[href^="research.html#"]'
+    );
+
+    crossPageAnchors.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        const href = link.getAttribute('href');
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const targetPage = href.split('#')[0];
+
+        // Only intercept if we're navigating to a DIFFERENT page
+        if (targetPage !== currentPage) {
+          if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+          e.preventDefault();
+          transition.classList.add('is-active');
+          setTimeout(function () {
+            window.location.href = href;
+          }, 420);
+        }
+      });
+    });
+  }
 })();
