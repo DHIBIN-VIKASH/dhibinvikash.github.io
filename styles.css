@@ -44,6 +44,7 @@
     --text-tertiary: #666666;
     --accent: #3b82f6;
     --accent-muted: rgba(59, 130, 246, 0.15);
+    --accent-dark: #2563eb;
     --border: #262626;
     --surface: #171717;
     --surface-alt: #1e1e1e;
@@ -306,6 +307,23 @@ a {
 .site-nav__link:hover,
 .site-nav__link--active {
     color: var(--accent);
+}
+
+@media (min-width: 769px) {
+    .site-nav__link--active {
+        position: relative;
+    }
+
+    .site-nav__link--active::after {
+        content: '';
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        right: 0;
+        height: 1.5px;
+        background: var(--accent);
+        border-radius: 1px;
+    }
 }
 
 .theme-toggle {
@@ -1218,9 +1236,8 @@ time {
         height: 120px;
     }
 
-    /* Center the h2 underline only for hero/page-header on mobile */
-    .hero h2::after,
-    .page-header h2::after {
+    /* Center the h2 underline on mobile */
+    h2::after {
         margin-left: auto;
         margin-right: auto;
     }
@@ -1251,6 +1268,34 @@ time {
     100% {
         transform: scaleX(1);
         transform-origin: left center;
+    }
+}
+
+/* Loading spinner — fades in if page transition takes longer than expected */
+.page-transition.is-active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 22px;
+    margin: -11px 0 0 -11px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+    animation: spin-loader 0.65s linear infinite, loader-fade-in 0.35s 0.4s forwards;
+}
+
+@keyframes spin-loader {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loader-fade-in {
+    to {
+        opacity: 1;
     }
 }
 

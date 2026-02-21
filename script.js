@@ -322,4 +322,12 @@
       });
     });
   }
+
+  // ============================================================
+  // Dynamic Copyright Year
+  // ============================================================
+  const footerNote = document.querySelector('.footer-note');
+  if (footerNote) {
+    footerNote.innerHTML = footerNote.innerHTML.replace(/© \d{4}/, `© ${new Date().getFullYear()}`);
+  }
 })();
