@@ -657,6 +657,13 @@ a {
     margin-bottom: var(--space-4);
 }
 
+.project-entry__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
 .project-entry__detail,
 .pub-entry__detail {
     font-size: var(--text-sm);
@@ -774,6 +781,62 @@ a {
 .pub-button i {
     width: 14px;
     height: 14px;
+}
+
+/* --- About Section --- */
+.about-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+}
+
+.about-facts__item {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: var(--space-4) var(--space-6);
+    line-height: 1.6;
+}
+
+.about-interests {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.about-interests__title {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+    margin-top: var(--space-4);
+}
+
+.about-interests__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.about-interests__item {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: var(--space-4) var(--space-6);
+    line-height: 1.6;
+}
+
+/* Semantic time element — inherit parent text, no default UA styling */
+time {
+    font: inherit;
+    color: inherit;
 }
 
 /* --- Contact / Footer --- */
