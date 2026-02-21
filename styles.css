@@ -35,7 +35,6 @@
     --text-3xl: 3.5rem;
 
     --max-width: 960px;
-    --max-width-narrow: 720px;
 }
 
 [data-theme="dark"] {
@@ -106,10 +105,6 @@ body.nav-open {
     width: 90%;
     max-width: var(--max-width);
     margin: 0 auto;
-}
-
-.site-container--narrow {
-    max-width: var(--max-width-narrow);
 }
 
 /* --- Typography --- */
