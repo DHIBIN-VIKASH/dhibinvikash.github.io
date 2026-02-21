@@ -146,12 +146,8 @@
           heroImageWrapper.style.opacity = '';
         }
       } else {
-        // Sub-pages
-        if (scroll > 20) {
-          header.classList.add('site-header--scrolled');
-        } else {
-          header.classList.remove('site-header--scrolled');
-        }
+        // Sub-pages — header is always in scrolled state (avatar always visible)
+        header.classList.add('site-header--scrolled');
       }
     };
 
