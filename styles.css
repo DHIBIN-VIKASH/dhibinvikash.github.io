@@ -381,13 +381,7 @@ a {
     transition: filter 0.3s ease, border-color 0.3s ease;
 }
 
-.hero__image--docked {
-    position: fixed;
-    pointer-events: none;
-    border-width: 1px;
-    box-shadow: none;
-    filter: none;
-}
+/* .hero__image--docked removed — class was never applied by JS */
 
 .hero__name {
     margin-bottom: var(--space-2);
@@ -462,6 +456,16 @@ a {
 /* --- Sections --- */
 .section {
     padding: var(--space-32) 0;
+    /* Offset for fixed header so anchor-linked sections aren't hidden under it */
+    scroll-margin-top: 5rem;
+}
+
+.hero {
+    scroll-margin-top: 0;
+}
+
+.site-footer {
+    scroll-margin-top: 5rem;
 }
 
 .section__label {
@@ -473,9 +477,28 @@ a {
     display: block;
 }
 
+/* Intro paragraph beneath section headings */
+.section-desc {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-top: calc(-1 * var(--space-8));
+    margin-bottom: var(--space-4);
+}
+
 /* --- Page Headers (for sub-pages) --- */
 .page-header {
     padding-top: var(--space-32) !important;
+    scroll-margin-top: 0;
+}
+
+/* Give research page h1 stronger visual presence */
+.page-header h1 {
+    font-size: clamp(2rem, 5vw, var(--text-3xl));
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-6);
 }
 
 /* --- Academic Snapshot --- */
@@ -1053,5 +1076,35 @@ a {
     .section h2::after {
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+/* --- Reduced Motion Accessibility --- */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+
+    .hero__image-wrapper::before {
+        animation: none;
+    }
+
+    .pub-entry__status {
+        animation: none;
+    }
+
+    .pub-entry__status::after {
+        animation: none;
     }
 }
