@@ -60,6 +60,7 @@
 html {
     scroll-behavior: smooth;
     overflow-x: clip;
+    color-scheme: dark light;
 }
 
 body {
@@ -354,7 +355,6 @@ a {
     width: 160px;
     height: 160px;
     position: relative;
-    will-change: transform, opacity;
     transform-origin: center center;
 }
 
@@ -1241,6 +1241,61 @@ time {
         margin-left: auto;
         margin-right: auto;
     }
+}
+
+/* Extra-narrow screens — stack footer links vertically */
+@media (max-width: 320px) {
+    .contact-links {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .contact-link {
+        justify-content: center;
+    }
+}
+
+/* Touch / tap feedback for interactive cards */
+@media (hover: none) {
+
+    .snapshot-card:active,
+    .agent-card:active,
+    .project-entry:active,
+    .pub-entry:active,
+    .tech-item:active {
+        transform: scale(0.98);
+        transition-duration: 0.1s;
+    }
+}
+
+/* --- Breadcrumb --- */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-6);
+}
+
+.breadcrumb__link {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb__link:hover {
+    color: var(--accent);
+}
+
+.breadcrumb__sep {
+    color: var(--text-tertiary);
+    opacity: 0.5;
+}
+
+.breadcrumb__current {
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 /* --- Page Transition --- */

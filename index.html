@@ -11,10 +11,13 @@
     content="MBBS Intern (CRMI) and IIT Madras Data Science Graduate building clinically interpretable AI tools for surgical outcomes and evidence synthesis. Explore my multicentric research and technical projects.">
   <meta name="author" content="Dhibin Vikash K P">
   <meta name="robots" content="index, follow">
+  <meta name="keywords"
+    content="Physician-Scientist, AI in Healthcare, Clinical Research, Spine Surgery, Systematic Review, Meta-Analysis, Machine Learning, Data Science, IIT Madras, MBBS, Dhibin Vikash">
   <meta name="format-detection" content="telephone=no">
   <meta name="google-site-verification" content="bwtS_X609Gw66Sfo-BKHAnJOD9sHicrOAgpSJAGvkGs" />
   <link rel="canonical" href="https://dhibin-vikash.github.io/">
   <link rel="preload" as="image" href="public/profile.jpg">
+  <link rel="preload" as="style" href="styles.css">
   <link rel="icon" href="public/favicon.png" type="image/png" sizes="512x512">
   <link rel="icon" href="public/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="public/favicon.png">
@@ -101,7 +104,7 @@
         <span class="nav-toggle__icon"></span>
       </button>
       <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
-        <a href="index.html" class="site-nav__link site-nav__link--active" id="nav-home">Home</a>
+        <a href="index.html" class="site-nav__link site-nav__link--active" id="nav-home" aria-current="page">Home</a>
         <a href="research.html" class="site-nav__link" id="nav-research">Research</a>
         <a href="#projects" class="site-nav__link" id="nav-projects">Projects</a>
         <a href="#smr-agents" class="site-nav__link" id="nav-agents">Agents & AI</a>
@@ -122,6 +125,7 @@
           <div class="hero__image-wrapper">
             <img src="public/profile.jpg" alt="Dhibin Vikash K P — Physician-Scientist" class="hero__image" width="160"
               height="160" loading="eager">
+            <!-- NOTE: Any future images added below the fold should use loading="lazy" for performance -->
           </div>
           <div class="hero__content">
             <h1 class="hero__name">Dhibin Vikash K P</h1>
@@ -145,8 +149,8 @@
         <h2>Portfolio Context</h2>
 
         <div class="snapshot-grid">
-          <div class="snapshot-card reveal" id="card-academic">
-            <div class="snapshot-card__title">Academic Milestones</div>
+          <div class="snapshot-card reveal" id="card-academic" role="region" aria-labelledby="card-academic-title">
+            <div class="snapshot-card__title" id="card-academic-title">Academic Milestones</div>
             <div class="snapshot-card__list">
               <div class="snapshot-card__item">
                 <strong>MBBS Intern (CRMI)</strong>
@@ -160,16 +164,16 @@
             </div>
           </div>
 
-          <div class="snapshot-card reveal" id="card-research">
-            <div class="snapshot-card__title">Research Tracking</div>
+          <div class="snapshot-card reveal" id="card-research" role="region" aria-labelledby="card-research-title">
+            <div class="snapshot-card__title" id="card-research-title">Research Tracking</div>
             <div class="snapshot-card__list">
               <div class="snapshot-card__item">2 Peer-reviewed publications — <em>Global Spine Journal</em></div>
             </div>
             <a href="research.html" class="snapshot-card__link" id="card-research-link">View All &rarr;</a>
           </div>
 
-          <div class="snapshot-card reveal" id="card-roles">
-            <div class="snapshot-card__title">Leadership & Roles</div>
+          <div class="snapshot-card reveal" id="card-roles" role="region" aria-labelledby="card-roles-title">
+            <div class="snapshot-card__title" id="card-roles-title">Leadership & Roles</div>
             <div class="snapshot-card__list">
               <div class="snapshot-card__item">
                 <strong>Study Coordinator</strong>
@@ -182,8 +186,8 @@
             </div>
           </div>
 
-          <div class="snapshot-card reveal" id="card-funding">
-            <div class="snapshot-card__title">Funding / Grant Received</div>
+          <div class="snapshot-card reveal" id="card-funding" role="region" aria-labelledby="card-funding-title">
+            <div class="snapshot-card__title" id="card-funding-title">Funding / Grant Received</div>
             <div class="snapshot-card__list">
               <div class="snapshot-card__item">
                 <strong>Biophysical and Functional Consequences of HA–PRP Mixing: Effects on Platelet Integrity and
@@ -238,7 +242,8 @@
             Practice, Math Foundations of GenAI</div>
           <div class="tech-item"><strong>Machine Learning</strong> Gradient Boosting, SVM, MLP, Model Evaluation (Kaggle
             Workflow)</div>
-          <div class="tech-item"><strong>Full-Stack</strong> Flask, SQLAlchemy, Vue.js, HTML/CSS Integration</div>
+          <div class="tech-item"><strong>Full-Stack Web Development</strong> Flask, SQLAlchemy, Vue.js, HTML/CSS
+            Integration</div>
           <div class="tech-item"><strong>Data Science</strong> Statistics, Business Analytics & Dashboards</div>
         </div>
       </div>
@@ -294,15 +299,15 @@
         </div>
         <div class="about-interests">
           <div class="about-interests__title">Professional Bio</div>
-          <p>Dhibin Vikash is an MBBS Intern(CRMI) at Government Karur Medical College & Hospital and a B.S. Data
-            Science graduate from IIT Madras. He works at the intersection of medicine, technology, and research
+          <p>I am an MBBS Intern (CRMI) at Government Karur Medical College & Hospital and a B.S. Data
+            Science graduate from IIT Madras. I work at the intersection of medicine, technology, and research
             innovation, with a vision to integrate artificial intelligence and data-driven insights into clinical
             decision-making.</p>
           <p>Through coursework and hands-on projects in machine learning, deep learning, large language models, and
-            full-stack application development, he has built the technical foundation to bridge the gap between medical
+            full-stack application development, I have built the technical foundation to bridge the gap between medical
             expertise and computational intelligence.</p>
-          <p>He is currently engaged in research focusing on systematic reviews and meta-analyses of randomized
-            controlled trials (RCTs). His long-term goal is to develop clinically interpretable AI systems that enhance
+          <p>I am currently engaged in research focusing on systematic reviews and meta-analyses of randomized
+            controlled trials (RCTs). My long-term goal is to develop clinically interpretable AI systems that enhance
             research quality, evidence synthesis, and patient outcomes.</p>
 
           <div class="about-interests__title">Research Interests</div>
@@ -368,7 +373,8 @@
       </div>
       <p class="footer-url"><a href="https://dhibin-vikash.github.io" id="footer-site-url">dhibin-vikash.github.io</a>
       </p>
-      <p class="footer-note">&copy; 2026 Dhibin Vikash K P</p>
+      <!-- Year is dynamically set by script.js -->
+      <p class="footer-note">&copy; <span class="copyright-year">2026</span> Dhibin Vikash K P</p>
     </div>
   </footer>
 

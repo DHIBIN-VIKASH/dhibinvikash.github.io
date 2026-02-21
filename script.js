@@ -135,11 +135,17 @@
         // Parallax/Fade on the wrapper — ring + image travel together
         if (heroImageWrapper && !isMobile()) {
           const heroHeight = heroSection.offsetHeight;
+          heroImageWrapper.style.willChange = 'transform, opacity';
           if (scroll < heroHeight + 100) {
             const progress = Math.min(scroll / heroHeight, 1);
             heroImageWrapper.style.transform = `translateY(${scroll * 0.15}px)`;
             heroImageWrapper.style.opacity = Math.max(1 - progress * 1.5, 0);
           }
+          // Remove will-change after scroll settles to save GPU memory
+          clearTimeout(heroImageWrapper._willChangeTimer);
+          heroImageWrapper._willChangeTimer = setTimeout(function () {
+            heroImageWrapper.style.willChange = 'auto';
+          }, 200);
         } else if (heroImageWrapper && isMobile()) {
           // Reset any inline styles set before resize
           heroImageWrapper.style.transform = '';
@@ -326,8 +332,11 @@
   // ============================================================
   // Dynamic Copyright Year
   // ============================================================
-  const footerNote = document.querySelector('.footer-note');
-  if (footerNote) {
-    footerNote.innerHTML = footerNote.innerHTML.replace(/© \d{4}/, `© ${new Date().getFullYear()}`);
+  var yearSpans = document.querySelectorAll('.copyright-year');
+  if (yearSpans.length > 0) {
+    var currentYear = new Date().getFullYear();
+    yearSpans.forEach(function (span) {
+      span.textContent = currentYear;
+    });
   }
 })();

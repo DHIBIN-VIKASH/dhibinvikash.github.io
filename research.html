@@ -11,9 +11,12 @@
         content="Detailed research portfolio including multicentric clinical trials, systematic reviews, and AI-driven outcomes research.">
     <meta name="author" content="Dhibin Vikash K P">
     <meta name="robots" content="index, follow">
+    <meta name="keywords"
+        content="Research Portfolio, Physician-Scientist, AI in Healthcare, Spine Surgery, Systematic Review, Meta-Analysis, Clinical Trials, Global Spine Journal, Dhibin Vikash">
     <meta name="format-detection" content="telephone=no">
     <meta name="google-site-verification" content="bwtS_X609Gw66Sfo-BKHAnJOD9sHicrOAgpSJAGvkGs" />
     <link rel="canonical" href="https://dhibin-vikash.github.io/research.html">
+    <link rel="preload" as="style" href="styles.css">
     <link rel="icon" href="public/favicon.png" type="image/png" sizes="512x512">
     <link rel="icon" href="public/favicon-32.png" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="public/favicon.png">
@@ -84,6 +87,25 @@
       ]
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://dhibin-vikash.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Research & Publications"
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -101,8 +123,8 @@
             </button>
             <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
                 <a href="index.html" class="site-nav__link" id="nav-home-research">Home</a>
-                <a href="research.html" class="site-nav__link site-nav__link--active"
-                    id="nav-research-page">Research</a>
+                <a href="research.html" class="site-nav__link site-nav__link--active" id="nav-research-page"
+                    aria-current="page">Research</a>
                 <a href="index.html#projects" class="site-nav__link" id="nav-projects-research">Projects</a>
                 <a href="index.html#smr-agents" class="site-nav__link" id="nav-agents-research">Agents &amp; AI</a>
                 <a href="index.html#about" class="site-nav__link" id="nav-about-research">About</a>
@@ -118,6 +140,11 @@
         <!-- ==================== PAGE HEADER ==================== -->
         <div class="page-header section">
             <div class="site-container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" class="breadcrumb__link">Home</a>
+                    <span class="breadcrumb__sep" aria-hidden="true">&rarr;</span>
+                    <span class="breadcrumb__current" aria-current="page">Research &amp; Publications</span>
+                </nav>
                 <div class="section__label">Scientific Output</div>
                 <h1>Research &amp; Publications</h1>
                 <p class="page-header__subtitle">Peer-reviewed manuscripts, multicentric clinical studies, and evidence
@@ -167,7 +194,7 @@
                         <div class="pub-entry__meta">
                             <div class="pub-entry__detail"><span>Published</span> <time datetime="2026-02-10">February
                                     10, 2026</time></div>
-                            <div class="pub-entry__detail"><span>Study Type</span> Systematic Review / Meta-Analysis
+                            <div class="pub-entry__detail"><span>Study Type</span> Radiographic Analysis
                             </div>
                             <div class="pub-entry__detail"><span>Role</span> Co-Author</div>
                         </div>
@@ -283,7 +310,8 @@
             </div>
             <p class="footer-url"><a href="https://dhibin-vikash.github.io"
                     id="footer-site-url-research">dhibin-vikash.github.io</a></p>
-            <p class="footer-note">&copy; 2026 Dhibin Vikash K P</p>
+            <!-- Year is dynamically set by script.js -->
+            <p class="footer-note">&copy; <span class="copyright-year">2026</span> Dhibin Vikash K P</p>
         </div>
     </footer>
 
