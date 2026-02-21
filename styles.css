@@ -502,6 +502,29 @@ a {
     margin-bottom: var(--space-1);
 }
 
+.snapshot-card__link {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    transition: letter-spacing 0.2s ease, opacity 0.2s ease;
+}
+
+.snapshot-card__link:hover {
+    letter-spacing: 0.15em;
+    opacity: 0.8;
+}
+
+/* ResearchGate SVG icon — match Lucide icon sizing */
+.rg-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
 /* --- Projects & Pubs --- */
 .project-list,
 .pub-list {

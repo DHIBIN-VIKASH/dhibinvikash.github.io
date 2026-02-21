@@ -159,6 +159,50 @@
   }
 
   // ============================================================
+  // Scroll-Spy — highlight active nav link as sections enter view
+  // ============================================================
+  const spyMap = [
+    { sectionId: 'hero', navId: 'nav-home' },
+    { sectionId: 'projects', navId: 'nav-projects' },
+    { sectionId: 'smr-agents', navId: 'nav-agents' },
+    { sectionId: 'about', navId: 'nav-about' },
+    { sectionId: 'contact', navId: 'nav-contact' },
+  ];
+
+  const allNavLinks = document.querySelectorAll('.site-nav__link');
+
+  const spySections = spyMap
+    .map(({ sectionId, navId }) => ({
+      el: document.getElementById(sectionId),
+      navId,
+    }))
+    .filter(({ el }) => el !== null);
+
+  if (spySections.length > 0) {
+    const setActiveNav = (navId) => {
+      allNavLinks.forEach(link => link.classList.remove('site-nav__link--active'));
+      const active = document.getElementById(navId);
+      if (active) active.classList.add('site-nav__link--active');
+    };
+
+    const updateSpy = () => {
+      // Trigger point: 40% down the viewport
+      const triggerY = window.innerHeight * 0.4;
+      // Walk sections in order; last one whose top is above triggerY wins
+      let current = spySections[0];
+      for (const section of spySections) {
+        if (section.el.getBoundingClientRect().top <= triggerY) {
+          current = section;
+        }
+      }
+      setActiveNav(current.navId);
+    };
+
+    window.addEventListener('scroll', updateSpy, { passive: true });
+    updateSpy(); // set correct state immediately on load
+  }
+
+  // ============================================================
   // Advanced Animations (Apple-style reveal)
   // ============================================================
   const revealElements = document.querySelectorAll('.section, .snapshot-card, .pub-entry, .project-entry, .agent-card');
