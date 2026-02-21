@@ -535,6 +535,16 @@ a {
     max-width: 500px;
 }
 
+.hero__impact strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-style: normal;
+    background: linear-gradient(120deg, var(--accent-muted) 0%, var(--accent-muted) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 0.3em;
+    background-position: 0 88%;
+}
+
 .hero__actions {
     display: flex;
     gap: var(--space-4);
@@ -710,6 +720,16 @@ a {
     margin-bottom: var(--space-6);
     border-bottom: 1px solid var(--border);
     padding-bottom: var(--space-2);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.snapshot-card__icon {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
 }
 
 .snapshot-card__list {
@@ -1263,8 +1283,9 @@ time {
 /* --- Animations --- */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(20px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
 }
 
 .reveal--visible {
