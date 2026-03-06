@@ -1012,6 +1012,20 @@ a {
     height: 14px;
 }
 
+.pub-button--pending {
+    opacity: 0.6;
+    cursor: default;
+    border-style: dashed;
+}
+
+.pub-button--pending:hover {
+    background: var(--surface-alt);
+    color: var(--text-primary);
+    border-color: var(--border);
+    transform: none;
+    box-shadow: none;
+}
+
 /* --- About Section --- */
 .about-facts {
     display: flex;
